@@ -168,28 +168,53 @@ class MerkleTree:
             Throws:
                 Exception - On invalid value or one that is not contained in the tree
         """
-        # TODO: Implement this method
-        # Try implementing this method yourself. It is not mandatory though. There is a 
-        # step by step solution in the exercise document
-
         # Hash the value
-        
+        h = self.digest(value)
+
         # Check if it is contained within the tree
+        isin = self.contains(value)
+        if (not isin):
+            raise Exception('404, SOS, value not found!')
 
         # Start building the proof
+        proof = []
+        
+        self.__build_valid_proof(self.root, h, proof)
+
+        if len(proof) != 0:
+            proof.insert(0, (0 if proof[1][0] else 1, h))
+
+        return proof
+
+    def __build_valid_proof(self, node, value, proof):
+        if node is None:
+            return False
+
+        # found it!
+        elif node.value == value:
+            return True
 
         # Traverse left and right to find the correct leaf node
-    
-        # If the leaf was found in the left subtree -> add the right node to the proof list
+        left = self.__build_valid_proof(node.left, value, proof)
+        right = self.__build_valid_proof(node.right, value, proof)
 
+        # not found anywhere uptree...
+        if not left and not right:
+            return False
         # If it was both found on the left and on the right -> it means that left and right values are identical
         # Do not add to the list
-
+        if left and right and (0, node.left.value) in proof:
+            return False
+    
+        # If the leaf was found in the left subtree -> add the right node to the proof list
         # Create tuple with the node value and the position it was found on
         # 0 for right node and 1 for left node e.g (1, node.left)    
+        n = (0, node.right.value) if left else (1, node.left.value)
 
         # Append to the list
+        proof.append(n)
 
+        return True
         
     def dump(self, indent=0):
         
