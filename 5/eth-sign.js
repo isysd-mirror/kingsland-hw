@@ -21,4 +21,3 @@ const rpcsig = toRpcSig(ecsig.v, ecsig.r, ecsig.s, 1)
 
 // print the merged sig, along with message and address
 console.log({sig: rpcsig, msg: message, address: toChecksumAddress(addr.toString('hex')), version: 1})
-
