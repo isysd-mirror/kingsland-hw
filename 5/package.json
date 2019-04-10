@@ -1,0 +1,18 @@
+{
+  "name": "kingsland-hw-5",
+  "version": "1.0.0",
+  "description": "Homework assignment 5 for Kingsland module 1",
+  "module": "main.js",
+  "scripts": {
+    "test": "exit 1"
+  },
+  "author": "isysd",
+  "license": "MIT",
+  "dependencies": {
+    "bitcoinjs-lib": "^5.0.1",
+    "crypto-js": "^3.1.9-1",
+    "elliptic": "^6.4.1",
+    "esm": "^3.2.22",
+    "ethereumjs-util": "^6.1.0"
+  }
+}

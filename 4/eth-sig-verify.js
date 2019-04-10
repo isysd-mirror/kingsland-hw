@@ -16,7 +16,6 @@ const message = process.argv[4]
 const ecsig = fromRpcSig(signature)
 
 const valid = isValidSignature(
-//  hashPersonalMessage(Buffer.from(a.msg)),
   ecsig.v,
   ecsig.r,
   ecsig.s,
@@ -24,5 +23,13 @@ const valid = isValidSignature(
   1
 )
 
-if (valid) console.log('valid')
+const pubkey = ecrecover(
+  hashPersonalMessage(Buffer.from(message)),
+  ecsig.v,
+  ecsig.r,
+  ecsig.s,
+  1
+)
+
+if (valid && toChecksumAddress(pubToAddress(pubkey).toString('hex')) == address) console.log('valid')
 else console.log('invalid')
