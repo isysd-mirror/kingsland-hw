@@ -56,10 +56,29 @@ class MerkleTree:
         """
         self.digest = digest_delegate
         self.__root = self.build_root(iterable)
+        self.leaves = []
   
     @property
     def root(self):
         return self.__root
+
+    def __build_root(self, iterable):
+        """
+        `Build the actual Merkle Root. Actually build the next level, and repeat until reaching the root.`
+        """
+        ilen = len(iterable)
+        if ilen == 1:
+            # root level found! lets get out of here.
+            return iterable[0]
+        elif ilen % 2 != 0:
+            iterable.append(iterable[-1])
+        it = []
+        # iterate over the iterable in steps of 2
+        for i in range(0, ilen, 2):
+            # create new node with hash of left and right
+            it.append(self.__Node(self.digest(iterable[i].value + iterable[i + 1].value), left=iterable[i], right=iterable[i + 1]))
+        # call again with nodes just creatd, until we reach the root level
+        return self.__build_root(it)
 
     def build_root(self, iterable):
         """
@@ -73,22 +92,24 @@ class MerkleTree:
             Returns:
                 Node: The newly built root of the Merkle Tree
         """
-        # TODO: Implement this method
-        # Try implementing this method yourself
-
+        ilen = len(iterable)
 
         # When size is 1 the root is the only node that is left
-
-
+        if ilen == 0:
+            raise TypeError('There is no tree.')
+        if ilen == 1:
+            self.leaves = [self.__Node(self.digest(iterable[0]))]
+            return self.leaves[0]
         # Double the last node if the size is odd
+        elif ilen % 2 != 0:
+            iterable.append(iterable[-1])
 
+        # digest and save the leaves
+        self.leaves = list(map(lambda x: self.__Node(self.digest(x)), iterable))
 
         # Iterate over the collection and create the upper layers till the root is reached
-        # Keep references for each node to its children
-
-
-        # Return the root
-
+        return self.__build_root(self.leaves)
+        
     def contains(self, value):
         """
             `The contains method checks whether the item passed in as an argument is in the
