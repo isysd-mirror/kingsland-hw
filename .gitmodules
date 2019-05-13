@@ -1,0 +1,12 @@
+[submodule "3"]
+	path = 3
+	url = https://github.com/isysd-mirror/kingsland-private-3.git
+[submodule "4"]
+	path = 4
+	url = https://github.com/isysd-mirror/kingsland-private-4.git
+[submodule "6"]
+	path = 6
+	url = https://github.com/isysd-mirror/kingsland-private-6.git
+[submodule "5"]
+	path = 5
+	url = https://github.com/isysd-mirror/kingsland-private-5.git
